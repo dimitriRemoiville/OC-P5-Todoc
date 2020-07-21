@@ -1,7 +1,6 @@
 package com.cleanup.todoc.model;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
@@ -24,7 +23,7 @@ public class Task {
      * The unique identifier of the task
      */
     @PrimaryKey (autoGenerate = true)
-    private long id;
+    private Integer id;
 
     /**
      * The unique identifier of the project associated to the task
@@ -51,7 +50,7 @@ public class Task {
      * @param name              the name of the task to set
      * @param creationTimestamp the timestamp when the task has been created to set
      */
-    public Task(long id, long projectId, @NonNull String name, long creationTimestamp) {
+    public Task(long projectId, @NonNull String name, long creationTimestamp) {
         this.setProjectId(projectId);
         this.setName(name);
         this.setCreationTimestamp(creationTimestamp);
@@ -62,7 +61,7 @@ public class Task {
      *
      * @return the unique identifier of the task
      */
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -71,7 +70,7 @@ public class Task {
      *
      * @param id the unique idenifier of the task to set
      */
-    private void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -80,19 +79,10 @@ public class Task {
      *
      * @param projectId the unique identifier of the project associated to the task to set
      */
-    private void setProjectId(long projectId) {
+    public void setProjectId(long projectId) {
         this.projectId = projectId;
     }
 
-    /**
-     * Returns the project associated to the task.
-     *
-     * @return the project associated to the task
-     */
-    @Nullable
-    public Project getProject() {
-        return Project.getProjectById(projectId);
-    }
 
     /**
      * Returns the name of the task.

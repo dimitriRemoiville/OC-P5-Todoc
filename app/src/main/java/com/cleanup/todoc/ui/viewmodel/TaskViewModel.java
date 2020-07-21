@@ -1,5 +1,7 @@
 package com.cleanup.todoc.ui.viewmodel;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -17,6 +19,7 @@ public class TaskViewModel extends ViewModel {
     private final TaskRepository mTaskDataSource;
     private final ProjectRepository mProjectDataSource;
     private final Executor mExecutor;
+    private static final String TAG = "TaskViewModel";
 
     public TaskViewModel(TaskRepository taskDataSource, ProjectRepository projectDataSource, Executor executor) {
         super();
@@ -26,7 +29,7 @@ public class TaskViewModel extends ViewModel {
     }
 
     // For Project
-    public LiveData<Project> getProject(long projectId) {
+    public Project getProject(long projectId) {
         return mProjectDataSource.getProject(projectId);
     }
 
@@ -53,12 +56,19 @@ public class TaskViewModel extends ViewModel {
     public void deleteTask(long taskId) {
         mExecutor.execute(() -> {
             mTaskDataSource.deleteTask(taskId);
+            Log.d(TAG, "deleteTask: test");
         });
     }
 
     public void updateTask(Task task) {
         mExecutor.execute(() -> {
             mTaskDataSource.updateTask(task);
+        });
+    }
+
+    public void clearTable() {
+        mExecutor.execute(() -> {
+            mTaskDataSource.clearTable();
         });
     }
 

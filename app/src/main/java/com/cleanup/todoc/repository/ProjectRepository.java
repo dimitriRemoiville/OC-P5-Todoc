@@ -16,12 +16,12 @@ public class ProjectRepository {
     }
 
     // Get project
-    public LiveData<Project> getProject(long projectId) {
+    public Project getProject(long projectId) {
         return mProjectDao.getProject(projectId);
     }
 
     // Get all projects
     public LiveData<List<Project>> getAllProject() {
-        return mProjectDao.getAllProject();
+        return mProjectDao.getAllProjects();
     }
 }

@@ -2,6 +2,7 @@ package com.cleanup.todoc.ui;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -97,6 +98,8 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
     private TaskViewModel mTaskViewModel;
 
+    private static final String TAG = "MainActivity";
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     @Override
     public void onDeleteTask(Task task) {
         mTaskViewModel.deleteTask(task.getId());
+        Log.d(TAG, "onDeleteTask: " + task.getId());
     }
 
     /**
@@ -161,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             public void onChanged(List<Task> tasks) {
                 allTasks = (ArrayList<Task>) tasks;
                 updateTasks();
+                Log.d(TAG, "onChanged: ICI");
             }
         });
 
@@ -195,15 +200,8 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             }
             // If both project and name of the task have been set
             else if (taskProject != null) {
-                Task task = new Task(
-                        0,
-                        taskProject.getId(),
-                        taskName,
-                        new Date().getTime()
-                );
-
+                Task task = new Task(taskProject.getId(), taskName, new Date().getTime());
                 addTask(task);
-
                 dialogInterface.dismiss();
             }
             // If name has been set, but project has not been set (this should never occur)

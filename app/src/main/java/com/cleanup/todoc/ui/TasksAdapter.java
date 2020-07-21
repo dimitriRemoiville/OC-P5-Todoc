@@ -1,6 +1,8 @@
 package com.cleanup.todoc.ui;
 
+import android.content.Context;
 import android.content.res.ColorStateList;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,11 +10,18 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStore;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cleanup.todoc.R;
+import com.cleanup.todoc.di.Injection;
+import com.cleanup.todoc.di.ViewModelFactory;
 import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
+import com.cleanup.todoc.ui.viewmodel.TaskViewModel;
 
 import java.util.List;
 
@@ -33,6 +42,8 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
      */
     @NonNull
     private final DeleteTaskListener deleteTaskListener;
+
+    private static final String TAG = "TasksAdapter";
 
     /**
      * Instantiates a new TasksAdapter.
@@ -114,6 +125,8 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
          */
         private final DeleteTaskListener deleteTaskListener;
 
+        private final Context mContext;
+
         /**
          * Instantiates a new TaskViewHolder.
          *
@@ -124,6 +137,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
             super(itemView);
 
             this.deleteTaskListener = deleteTaskListener;
+            mContext = itemView.getContext();
 
             imgProject = itemView.findViewById(R.id.img_project);
             lblTaskName = itemView.findViewById(R.id.lbl_task_name);
@@ -136,6 +150,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
                     final Object tag = view.getTag();
                     if (tag instanceof Task) {
                         TaskViewHolder.this.deleteTaskListener.onDeleteTask((Task) tag);
+                        Log.d(TAG, "onClick: ICI");
                     }
                 }
             });
@@ -150,7 +165,12 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
             lblTaskName.setText(task.getName());
             imgDelete.setTag(task);
 
-            final Project taskProject = task.getProject();
+            ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(mContext);
+            ViewModelStore viewModelStore = new ViewModelStore();
+            TaskViewModel taskViewModel = new ViewModelProvider(viewModelStore, viewModelFactory).get(TaskViewModel.class);
+
+            final Project taskProject = taskViewModel.getProject(task.getProjectId());
+
             if (taskProject != null) {
                 imgProject.setSupportImageTintList(ColorStateList.valueOf(taskProject.getColor()));
                 lblProjectName.setText(taskProject.getName());

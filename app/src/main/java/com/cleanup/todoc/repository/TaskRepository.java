@@ -1,5 +1,7 @@
 package com.cleanup.todoc.repository;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 
 import com.cleanup.todoc.db.dao.TaskDao;
@@ -10,6 +12,7 @@ import java.util.List;
 public class TaskRepository {
 
     private final TaskDao mTaskDao;
+    private static final String TAG = "TaskRepository";
 
     public TaskRepository(TaskDao taskDao) {
         this.mTaskDao = taskDao;
@@ -33,10 +36,16 @@ public class TaskRepository {
     // Delete task
     public void deleteTask(long taskId) {
         mTaskDao.deleteTask(taskId);
+        Log.d(TAG, "deleteTask: ICI");
     }
 
     // Update task
     public void updateTask(Task task) {
         mTaskDao.updateTask(task);
+    }
+
+    // Clear task table
+    public void clearTable() {
+        mTaskDao.clearTable();
     }
 }
