@@ -98,8 +98,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
     private TaskViewModel mTaskViewModel;
 
-    private static final String TAG = "MainActivity";
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,7 +147,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     @Override
     public void onDeleteTask(Task task) {
         mTaskViewModel.deleteTask(task.getId());
-        Log.d(TAG, "onDeleteTask: " + task.getId());
     }
 
     /**
@@ -165,7 +162,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             public void onChanged(List<Task> tasks) {
                 allTasks = (ArrayList<Task>) tasks;
                 updateTasks();
-                Log.d(TAG, "onChanged: ICI");
             }
         });
 
