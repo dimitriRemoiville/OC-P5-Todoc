@@ -19,7 +19,6 @@ public class TaskViewModel extends ViewModel {
     private final TaskRepository mTaskDataSource;
     private final ProjectRepository mProjectDataSource;
     private final Executor mExecutor;
-    private static final String TAG = "TaskViewModel";
 
     public TaskViewModel(TaskRepository taskDataSource, ProjectRepository projectDataSource, Executor executor) {
         super();
@@ -56,7 +55,6 @@ public class TaskViewModel extends ViewModel {
     public void deleteTask(long taskId) {
         mExecutor.execute(() -> {
             mTaskDataSource.deleteTask(taskId);
-            Log.d(TAG, "deleteTask: test");
         });
     }
 

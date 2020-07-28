@@ -43,8 +43,6 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
     @NonNull
     private final DeleteTaskListener deleteTaskListener;
 
-    private static final String TAG = "TasksAdapter";
-
     /**
      * Instantiates a new TasksAdapter.
      *
@@ -150,7 +148,6 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
                     final Object tag = view.getTag();
                     if (tag instanceof Task) {
                         TaskViewHolder.this.deleteTaskListener.onDeleteTask((Task) tag);
-                        Log.d(TAG, "onClick: ICI");
                     }
                 }
             });
